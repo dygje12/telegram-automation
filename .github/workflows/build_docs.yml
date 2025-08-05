@@ -21,7 +21,7 @@ jobs:
     - name: Install Python dependencies
       run: |
         pip install -r backend/requirements.txt
-        pip install sphinx mkdocs
+        pip install sphinx==8.2.3 mkdocs==1.6.0
 
     - name: Build Sphinx documentation
       run: |
@@ -42,9 +42,10 @@ jobs:
 
     - name: Install Node.js dependencies
       run: |
+        npm install -g pnpm
         cd frontend
-        npm install
-        npm install -g jsdoc
+        pnpm install
+        npm install -g jsdoc@4.0.3
 
     - name: Build JSDoc documentation
       run: |
