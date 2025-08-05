@@ -5,20 +5,20 @@ Aplikasi fullstack untuk otomasi pengiriman pesan Telegram menggunakan user acco
 ## 🚀 Fitur Utama
 
 ### Backend (FastAPI + Telethon)
-- **Authentication**: Login menggunakan API ID, API Hash, dan nomor telepon
-- **Message Management**: Template pesan dengan variabel dinamis
-- **Group Management**: Validasi dan manajemen grup target
-- **Smart Blacklist**: Sistem blacklist otomatis dengan expiry time
-- **Scheduler**: Pengiriman otomatis dengan interval random untuk menghindari spam detection
-- **Monitoring**: Logging lengkap dan statistik real-time
-- **Security**: Enkripsi data sensitif dan session management
+- **Authentication**: Login menggunakan API ID, API Hash, dan nomor telepon (dikonfirmasi oleh `auth.py` router)
+- **Message Management**: Template pesan dengan variabel dinamis (dikonfirmasi oleh `messages.py` router)
+- **Group Management**: Validasi dan manajemen grup target (dikonfirmasi oleh `groups.py` router)
+- **Smart Blacklist**: Sistem blacklist otomatis dengan expiry time (dikonfirmasi oleh `blacklist.py` router)
+- **Scheduler**: Pengiriman otomatis dengan interval random untuk menghindari spam detection (dikonfirmasi oleh `scheduler.py` router dan `scheduler_service.py`)
+- **Monitoring**: Logging lengkap dan statistik real-time (dikonfirmasi oleh `main.py` health check dan info endpoint)
+- **Security**: Enkripsi data sensitif dan session management (dikonfirmasi oleh `utils/encryption.py` dan `auth.py`)
 
 ### Frontend (React + Tailwind CSS)
-- **Modern UI**: Interface yang clean dan responsive
-- **Multi-step Auth**: Login → Code Verification → 2FA (jika diperlukan)
-- **Dashboard**: Statistik real-time dan kontrol scheduler
-- **Management**: CRUD untuk messages, groups, dan blacklist
-- **Settings**: Konfigurasi interval dan parameter pengiriman
+- **Modern UI**: Interface yang clean dan responsive (dikonfirmasi oleh `package.json` dependencies seperti `@radix-ui`, `tailwindcss`)
+- **Multi-step Auth**: Login → Code Verification → 2FA (jika diperlukan) (dikonfirmasi oleh `auth.py` router)
+- **Dashboard**: Statistik real-time dan kontrol scheduler (dikonfirmasi oleh `main.py` info endpoint dan `scheduler.py` router)
+- **Management**: CRUD untuk messages, groups, dan blacklist (dikonfirmasi oleh `messages.py`, `groups.py`, `blacklist.py` routers)
+- **Settings**: Konfigurasi interval dan parameter pengiriman (dikonfirmasi oleh `settings.py` router)
 
 ## 📋 Persyaratan
 
@@ -30,15 +30,15 @@ Aplikasi fullstack untuk otomasi pengiriman pesan Telegram menggunakan user acco
 5. Salin API ID dan API Hash
 
 ### System Requirements
-- Python 3.8+
-- Node.js 16+
-- SQLite (included)
+- Python 3.8+ (dikonfirmasi oleh `requirements.txt`)
+- Node.js 16+ (dikonfirmasi oleh `package.json`)
+- SQLite (included) (dikonfirmasi oleh `database.py`)
 
 ## 🛠️ Instalasi dan Setup
 
 ### 1. Clone Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/dygje12/telegram-automation
 cd telegram-automation
 ```
 
@@ -51,13 +51,13 @@ pip install -r requirements.txt
 
 # Setup environment variables
 cp .env.example .env
-# Edit .env file dengan konfigurasi Anda
+# Edit .env file dengan konfigurasi Anda (lihat bagian Konfigurasi)
 
 # Jalankan aplikasi
 python run.py
 ```
 
-Backend akan berjalan di `http://localhost:8000`
+Backend akan berjalan di `http://localhost:8000` (dikonfirmasi oleh `main.py`)
 
 ### 3. Setup Frontend
 ```bash
@@ -70,11 +70,12 @@ pnpm install
 pnpm run dev
 ```
 
-Frontend akan berjalan di `http://localhost:5173`
+Frontend akan berjalan di `http://localhost:5173` (dikonfirmasi oleh `vite.config.js` default)
 
 ## 🔧 Konfigurasi
 
 ### Environment Variables (.env)
+File `.env` harus dibuat di direktori `backend` dengan variabel-variabel berikut:
 ```env
 # Database
 DATABASE_URL=sqlite:///./telegram_automation.db
@@ -90,15 +91,17 @@ DEBUG=False
 ```
 
 ### Default Settings
+Pengaturan default untuk interval dan delay pengiriman, serta durasi blacklist, dapat ditemukan di kode sumber (`settings.py` dan `scheduler_service.py`).
 - **Min Interval**: 1 jam 10 menit (4200 detik)
 - **Max Interval**: 1 jam 30 menit (5400 detik)
 - **Min Delay**: 5 detik
 - **Max Delay**: 10 detik
 - **Blacklist Duration**: Dinamis (maksimal 60 menit untuk slow mode, 1 jam untuk flood wait, atau permanen tergantung jenis error)
+
 ## 📖 Cara Penggunaan
 
 ### 1. Login
-1. Buka aplikasi di browser
+1. Buka aplikasi di browser (biasanya `http://localhost:5173`)
 2. Masukkan API ID, API Hash, dan nomor telepon
 3. Masukkan kode verifikasi dari Telegram
 4. Jika ada 2FA, masukkan password
@@ -106,38 +109,35 @@ DEBUG=False
 ### 2. Setup Messages
 1. Buka tab "Messages"
 2. Klik "Add Message"
-3. Buat template pesan dengan variabel:
-   - `{username}`: Username target
-   - `{first_name}`: Nama depan
-   - `{group_title}`: Nama grup
+3. Buat template pesan sesuai kebutuhan Anda
 
 ### 3. Setup Groups
 1. Buka tab "Groups"
 2. Tambahkan grup dengan username atau link
-3. Sistem akan memvalidasi akses grup
+3. Sistem akan memvalidasi akses grup secara otomatis.
 
 ### 4. Start Automation
 1. Buka tab "Scheduler"
-2. Klik "Start" untuk memulai pengiriman otomatis
-3. Monitor progress di Dashboard
+2. Klik "Start" untuk memulai pengiriman otomatis.
+3. Monitor progress di Dashboard.
 
 ## 🔒 Keamanan
 
 ### Data Protection
-- Semua data sensitif dienkripsi
-- Session Telegram disimpan dengan aman
-- Token akses memiliki expiry time
+- Semua data sensitif dienkripsi menggunakan `ENCRYPTION_KEY`.
+- Session Telegram disimpan dengan aman.
+- Token akses memiliki expiry time.
 
 ### Anti-Spam Measures
-- Interval random antar pengiriman
-- Deteksi slow mode otomatis
-- Blacklist grup yang bermasalah
-- Rate limiting pada API
+- Interval random antar pengiriman untuk menghindari deteksi spam.
+- Deteksi slow mode otomatis dan penanganan blacklist.
+- Blacklist grup yang bermasalah secara otomatis.
+- Rate limiting pada API (implied oleh penggunaan FastAPI).
 
 ### Privacy
-- Tidak menyimpan isi pesan yang dikirim
-- Log hanya menyimpan status pengiriman
-- Data user terisolasi per akun
+- Tidak menyimpan isi pesan yang dikirim.
+- Log hanya menyimpan status pengiriman.
+- Data user terisolasi per akun.
 
 ## 📊 Monitoring
 
@@ -149,36 +149,37 @@ DEBUG=False
 - Statistik 24 jam terakhir
 
 ### Logging
-- Setiap pengiriman dicatat dengan timestamp
-- Status: success, failed, blacklisted
-- Error details untuk debugging
-- Export logs dalam format JSON
+- Setiap pengiriman dicatat dengan timestamp.
+- Status: success, failed, blacklisted.
+- Error details untuk debugging.
+- Export logs dalam format JSON (fitur yang mungkin perlu dikembangkan lebih lanjut atau dijelaskan jika ada).
 
 ## 🚨 Troubleshooting
 
 ### Common Issues
 
 **1. Login Failed**
-- Pastikan API credentials benar
-- Cek koneksi internet
-- Pastikan nomor telepon format internasional (+62xxx)
+- Pastikan API credentials benar.
+- Cek koneksi internet.
+- Pastikan nomor telepon dalam format internasional (misalnya, `+62812...`).
 
 **2. Code Not Received**
-- Tunggu beberapa detik
-- Cek aplikasi Telegram di device lain
-- Restart aplikasi jika perlu
+- Tunggu beberapa detik.
+- Cek aplikasi Telegram di perangkat lain.
+- Restart aplikasi jika perlu.
 
 **3. Slow Mode Detected**
-- Grup akan otomatis masuk blacklist
-- Tunggu 24 jam atau hapus manual dari blacklist
-- Adjust interval settings untuk lebih konservatif
+- Grup akan otomatis masuk blacklist.
+- Tunggu 24 jam atau hapus manual dari blacklist.
+- Sesuaikan pengaturan interval untuk lebih konservatif.
 
 **4. Messages Not Sending**
-- Cek apakah ada pesan aktif
-- Pastikan ada grup yang tidak di-blacklist
-- Periksa log untuk error details
+- Cek apakah ada pesan aktif.
+- Pastikan ada grup yang tidak di-blacklist.
+- Periksa log untuk detail error.
 
 ### Debug Mode
+Untuk mengaktifkan mode debug:
 ```bash
 # Backend debug
 DEBUG=True python run.py
@@ -189,64 +190,75 @@ pnpm run dev
 
 ## 🔄 API Endpoints
 
+Berikut adalah daftar endpoint API utama yang disediakan oleh backend:
+
 ### Authentication
-- `POST /auth/login` - Login dengan credentials
-- `POST /auth/verify-code` - Verifikasi kode
-- `POST /auth/verify-2fa` - Verifikasi 2FA
-- `GET /auth/status` - Status autentikasi
+- `POST /auth/login` - Login dengan credentials (API ID, API Hash, nomor telepon)
+- `POST /auth/verify-code` - Verifikasi kode OTP yang diterima dari Telegram
+- `POST /auth/verify-2fa` - Verifikasi Two-Factor Authentication (2FA) jika diaktifkan
+- `GET /auth/status` - Mendapatkan status autentikasi pengguna saat ini
 
 ### Messages
-- `GET /messages` - List semua pesan
-- `POST /messages` - Buat pesan baru
-- `PUT /messages/{id}` - Update pesan
-- `DELETE /messages/{id}` - Hapus pesan
+- `GET /messages` - Mendapatkan daftar semua template pesan
+- `POST /messages` - Membuat template pesan baru
+- `PUT /messages/{id}` - Memperbarui template pesan berdasarkan ID
+- `DELETE /messages/{id}` - Menghapus template pesan berdasarkan ID
 
 ### Groups
-- `GET /groups` - List semua grup
-- `POST /groups` - Tambah grup
-- `POST /groups/{id}/validate` - Validasi grup
+- `GET /groups` - Mendapatkan daftar semua grup target
+- `POST /groups` - Menambahkan grup baru
+- `POST /groups/{id}/validate` - Memvalidasi akses ke grup tertentu berdasarkan ID
 
 ### Scheduler
-- `POST /scheduler/start` - Start scheduler
-- `POST /scheduler/stop` - Stop scheduler
-- `GET /scheduler/status` - Status scheduler
-- `GET /scheduler/logs` - Logs pengiriman
+- `POST /scheduler/start` - Memulai proses pengiriman pesan otomatis
+- `POST /scheduler/stop` - Menghentikan proses pengiriman pesan otomatis
+- `GET /scheduler/status` - Mendapatkan status scheduler saat ini (running/stopped)
+- `GET /scheduler/logs` - Mendapatkan log riwayat pengiriman pesan
+
+### Settings
+- `GET /settings` - Mendapatkan pengaturan aplikasi saat ini
+- `PUT /settings` - Memperbarui pengaturan aplikasi
 
 ## 📝 Database Schema
 
-### Tables
-- **users**: Data user dan session
-- **messages**: Template pesan
-- **groups**: Daftar grup target
-- **blacklist**: Grup yang di-blacklist
-- **logs**: History pengiriman
-- **settings**: Konfigurasi user
+Proyek ini menggunakan SQLite sebagai database default. Berikut adalah tabel-tabel utama yang digunakan:
+
+- **users**: Menyimpan data pengguna dan sesi Telegram.
+- **messages**: Menyimpan template pesan yang dibuat pengguna.
+- **groups**: Menyimpan daftar grup Telegram yang menjadi target pengiriman.
+- **blacklist**: Menyimpan daftar grup yang di-blacklist sementara atau permanen.
+- **logs**: Menyimpan riwayat dan status setiap pengiriman pesan.
+- **settings**: Menyimpan konfigurasi aplikasi yang dapat diubah oleh pengguna.
 
 ## 🤝 Contributing
 
-1. Fork repository
-2. Buat feature branch
-3. Commit changes
-4. Push ke branch
-5. Buat Pull Request
+Kontribusi sangat dihargai! Ikuti langkah-langkah berikut untuk berkontribusi:
+
+1. Fork repository ini.
+2. Buat branch fitur baru (`git checkout -b feature/nama-fitur`).
+3. Lakukan perubahan Anda dan commit (`git commit -m 'Tambahkan fitur baru'`).
+4. Push ke branch Anda (`git push origin feature/nama-fitur`).
+5. Buat Pull Request.
 
 ## 📄 License
 
-MIT License - lihat file LICENSE untuk detail.
+Proyek ini dilisensikan di bawah MIT License. Lihat file `LICENSE` untuk detail lebih lanjut.
 
 ## ⚠️ Disclaimer
 
-Aplikasi ini dibuat untuk tujuan edukasi dan otomasi personal. Pengguna bertanggung jawab untuk mematuhi Terms of Service Telegram dan tidak melakukan spam. Penggunaan yang tidak bertanggung jawab dapat menyebabkan akun Telegram dibanned.
+Aplikasi ini dibuat untuk tujuan edukasi dan otomasi personal. Pengguna bertanggung jawab penuh untuk mematuhi Terms of Service Telegram dan tidak melakukan spam. Penggunaan yang tidak bertanggung jawab dapat menyebabkan akun Telegram diblokir atau dibanned.
 
 ## 📞 Support
 
-Jika mengalami masalah atau butuh bantuan:
-1. Cek dokumentasi troubleshooting
-2. Periksa logs untuk error details
-3. Buat issue di repository
-4. Hubungi developer
+Jika Anda mengalami masalah atau membutuhkan bantuan, silakan:
+1. Cek dokumentasi troubleshooting di atas.
+2. Periksa log aplikasi untuk detail error.
+3. Buat issue baru di repository GitHub.
+4. Hubungi developer (jika ada informasi kontak yang disediakan).
 
 ---
 
 **Dibuat dengan ❤️ menggunakan FastAPI, Telethon, React, dan Tailwind CSS**
+
+
 
