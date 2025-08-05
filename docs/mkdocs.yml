@@ -4,6 +4,8 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Usage: usage.md
-  - Backend API Docs (Sphinx): backend_api_docs.md
+  - Backend API Docs: backend_api_docs.md
+  - Backend Code Docs (Sphinx): ../backend/docs/build/html/index.html
+
 
 

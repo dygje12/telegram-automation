@@ -8,7 +8,7 @@ Pastikan sistem Anda memenuhi persyaratan berikut:
 
 *   **Python 3.9+**
 *   **Node.js 18+**
-*   **npm** atau **yarn**
+*   **pnpm** (direkomendasikan) atau **npm** atau **yarn**
 *   **Git**
 
 ## Langkah-langkah Instalasi
@@ -31,19 +31,27 @@ Pastikan sistem Anda memenuhi persyaratan berikut:
     pip install -r requirements.txt
     ```
 
-    Buat file `.env` di direktori `backend` dan tambahkan konfigurasi yang diperlukan (contoh):
+    Buat file `.env` di direktori `backend` dan tambahkan konfigurasi yang diperlukan (lihat `backend/.env.example` untuk contoh):
 
-    ```
-    DATABASE_URL="sqlite:///./sql_app.db"
-    SECRET_KEY="your-super-secret-key"
-    ALGORITHM="HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES=30
+    ```dotenv
+    # Database
+    DATABASE_URL=sqlite:///./telegram_automation.db
+
+    # Security
+    SECRET_KEY=your-secret-key-here
+    ENCRYPTION_KEY=your-encryption-key-here
+
+    # Server
+    HOST=0.0.0.0
+    PORT=8000
+    DEBUG=False
     ```
 
-    Jalankan migrasi database:
+    Jalankan migrasi database (jika ada):
 
     ```bash
-    alembic upgrade head
+    # Jika menggunakan Alembic untuk migrasi database
+    # alembic upgrade head
     ```
 
     Jalankan aplikasi backend:
@@ -60,26 +68,31 @@ Pastikan sistem Anda memenuhi persyaratan berikut:
 
     ```bash
     cd ../frontend
-    npm install
+    pnpm install
+    # atau
+    # npm install
     # atau
     # yarn install
     ```
 
-    Buat file `.env` di direktori `frontend` dan tambahkan konfigurasi yang diperlukan (contoh):
+    Buat file `.env` di direktori `frontend` dan tambahkan konfigurasi yang diperlukan (lihat `frontend/.env.example` jika ada):
 
-    ```
-    REACT_APP_API_URL=http://127.0.0.1:8000
+    ```dotenv
+    VITE_API_BASE_URL=http://127.0.0.1:8000
     ```
 
     Jalankan aplikasi frontend:
 
     ```bash
-    npm start
+    pnpm run dev
     # atau
-    # yarn start
+    # npm run dev
+    # atau
+    # yarn dev
     ```
 
-    Frontend akan berjalan di `http://localhost:3000` secara default.
+    Frontend akan berjalan di `http://localhost:5173` secara default (sesuai `vite.config.js`).
 
 Setelah semua langkah ini selesai, aplikasi Telegram Automation seharusnya sudah berjalan dan dapat diakses melalui browser Anda.
+
 
