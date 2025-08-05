@@ -94,8 +94,7 @@ DEBUG=False
 - **Max Interval**: 1 jam 30 menit (5400 detik)
 - **Min Delay**: 5 detik
 - **Max Delay**: 10 detik
-- **Blacklist Duration**: 24 jam (untuk slow mode)
-
+- **Blacklist Duration**: Dinamis (maksimal 60 menit untuk slow mode, 1 jam untuk flood wait, atau permanen tergantung jenis error)
 ## 📖 Cara Penggunaan
 
 ### 1. Login
