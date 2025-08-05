@@ -1,0 +1,62 @@
+name: Build Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Python dependencies
+      run: |
+        pip install -r backend/requirements.txt
+        pip install sphinx mkdocs
+
+    - name: Build Sphinx documentation
+      run: |
+        cd backend/docs
+        make html
+        mkdir -p ../../docs/site/backend_sphinx_html
+        cp -r build/html/* ../../docs/site/backend_sphinx_html/
+
+    - name: Build MkDocs documentation
+      run: |
+        cd docs
+        mkdocs build
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install Node.js dependencies
+      run: |
+        cd frontend
+        npm install
+        npm install -g jsdoc
+
+    - name: Build JSDoc documentation
+      run: |
+        cd frontend
+        jsdoc -c jsdoc.json
+        mkdir -p ../../docs/site/frontend_jsdoc
+        cp -r docs/jsdoc/* ../../docs/site/frontend_jsdoc/
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/site
+
+
