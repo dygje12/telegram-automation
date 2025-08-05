@@ -204,7 +204,9 @@ class BlacklistService:
                 # Extract wait time from error message
                 import re
                 match = re.search(r'(\d+)', error_str)
-                wait_seconds = int(match.group(1)) if match else 3600  # Default 1 hour
+                wait_seconds = int(match.group(1)) if match else 60  # Default 1 minute if not specified
+                # Ensure wait_seconds does not exceed 60 minutes (3600 seconds) for slow mode
+                wait_seconds = min(wait_seconds, 3600)
                 
                 self.add_to_blacklist(
                     db, user_id, group_id, 'temporary',
@@ -219,6 +221,7 @@ class BlacklistService:
                 import re
                 match = re.search(r'(\d+)', error_str)
                 wait_seconds = int(match.group(1)) if match else 3600  # Default 1 hour
+                # For flood wait, we can keep the default 1 hour or more as it's a server-side limit
                 
                 self.add_to_blacklist(
                     db, user_id, group_id, 'temporary',
