@@ -1,10 +1,10 @@
 site_name: Telegram Automation Documentation
 
 nav:
-  - Home: docs/index.md
-  - Installation: docs/installation.md
-  - Usage: docs/usage.md
-  - Backend API Docs: docs/backend_api_docs.md
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Backend API Docs: backend_api_docs.md
   - Backend Code Docs (Sphinx): backend_sphinx_html/index.html
 
 

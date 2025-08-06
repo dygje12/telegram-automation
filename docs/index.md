@@ -2,6 +2,13 @@
 
 Selamat datang di dokumentasi Telegram Automation! Aplikasi fullstack untuk otomasi pengiriman pesan Telegram menggunakan user account dengan fitur-fitur canggih seperti smart blacklist, scheduler otomatis, dan monitoring real-time.
 
+## 📚 Dokumentasi
+
+- **[Installation](installation.md)** - Panduan instalasi dan setup lengkap
+- **[Usage](usage.md)** - Panduan penggunaan aplikasi
+- **[Backend API Docs](backend_api_docs.md)** - Dokumentasi API backend yang detail
+- **[Backend Code Docs (Sphinx)](backend_sphinx_html/)** - Dokumentasi kode backend dengan Sphinx
+
 ## 🚀 Fitur Utama
 
 ### Backend (FastAPI + Telethon)
@@ -37,7 +44,7 @@ Aplikasi ini terdiri dari dua komponen utama:
 ### Anti-Spam Measures
 - Interval random antar pengiriman untuk menghindari deteksi spam Telegram
 - Deteksi slow mode otomatis dan penanganan blacklist cerdas
-- Blacklist grup yang bermasalah secara otomatis dengan durasi yang dapat dikonfigurasi
+- Blacklist grup yang bermasarkan secara otomatis dengan durasi yang dapat dikonfigurasi
 - Rate limiting pada API untuk mencegah abuse
 
 ### Privacy
@@ -112,4 +119,6 @@ Jika Anda mengalami masalah atau membutuhkan bantuan:
 ---
 
 **Dibuat dengan ❤️ menggunakan FastAPI, Telethon, React, dan Tailwind CSS**
+
+
 
