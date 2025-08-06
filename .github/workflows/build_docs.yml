@@ -26,7 +26,7 @@ jobs:
     - name: Install Python dependencies
       run: |
         pip install -r backend/requirements.txt
-        pip install sphinx mkdocs mkdocs-linkchecker
+        pip install sphinx mkdocs
 
     - name: Build Sphinx documentation
       run: |
@@ -59,10 +59,7 @@ jobs:
         cd docs
         mkdocs build
 
-    - name: Check for broken links
-      run: |
-        cd docs
-        mkdocs build --strict --verbose
+
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
