@@ -32,8 +32,8 @@ jobs:
       run: |
         cd backend/docs
         make html
-        mkdir -p ../../docs/site/backend_sphinx_html
-        cp -r build/html/* ../../docs/site/backend_sphinx_html/
+        mkdir -p ../../docs/backend_sphinx_html
+        cp -r build/html/* ../../docs/backend_sphinx_html/
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -51,8 +51,8 @@ jobs:
       run: |
         cd frontend
         jsdoc -c jsdoc.json
-        mkdir -p ../../docs/site/frontend_jsdoc
-        cp -r docs/jsdoc/* ../../docs/site/frontend_jsdoc/
+        mkdir -p ../../docs/frontend_jsdoc
+        cp -r docs/jsdoc/* ../../docs/frontend_jsdoc/
 
     - name: Build MkDocs documentation
       run: |
@@ -68,6 +68,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs/site
+        publish_dir: ./docs
 
 

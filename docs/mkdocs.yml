@@ -6,5 +6,8 @@ nav:
   - Usage: usage.md
   - API Documentation:
     - Backend API Docs: backend_api_docs.md
+    - Backend Code Docs (Sphinx): backend_sphinx_html/index.html
+    - Frontend Code Docs (JSDoc): frontend_jsdoc/index.html
   - Docstring Best Practices: docstring_best_practices.md
+
 
