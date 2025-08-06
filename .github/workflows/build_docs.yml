@@ -28,22 +28,12 @@ jobs:
         pip install -r backend/requirements.txt
         pip install sphinx==8.2.3 mkdocs==1.6.1 mkdocs-linkchecker
 
-    - name: Check for broken links
-      run: |
-        cd docs
-        mkdocs build --strict --verbose
-
     - name: Build Sphinx documentation
       run: |
         cd backend/docs
         make html
         mkdir -p ../../docs/site/backend_sphinx_html
         cp -r build/html/* ../../docs/site/backend_sphinx_html/
-
-    - name: Build MkDocs documentation
-      run: |
-        cd docs
-        mkdocs build
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -63,6 +53,16 @@ jobs:
         jsdoc -c jsdoc.json
         mkdir -p ../../docs/site/frontend_jsdoc
         cp -r docs/jsdoc/* ../../docs/site/frontend_jsdoc/
+
+    - name: Build MkDocs documentation
+      run: |
+        cd docs
+        mkdocs build
+
+    - name: Check for broken links
+      run: |
+        cd docs
+        mkdocs build --strict --verbose
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
