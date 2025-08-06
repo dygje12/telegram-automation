@@ -26,7 +26,12 @@ jobs:
     - name: Install Python dependencies
       run: |
         pip install -r backend/requirements.txt
-        pip install sphinx==7.4.7 mkdocs==1.6.0
+        pip install sphinx==8.2.3 mkdocs==1.6.1 mkdocs-linkchecker
+
+    - name: Check for broken links
+      run: |
+        cd docs
+        mkdocs build --strict --verbose
 
     - name: Build Sphinx documentation
       run: |

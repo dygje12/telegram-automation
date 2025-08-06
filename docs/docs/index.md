@@ -26,19 +26,19 @@ Aplikasi ini terdiri dari dua komponen utama:
 
 ## Keamanan
 
-Aplikasi ini dirancang dengan mempertimbangkan keamanan data dan langkah-langkah anti-spam. Informasi lebih lanjut mengenai fitur keamanan dan privasi dapat ditemukan di sini.
+Aplikasi ini dirancang dengan mempertimbangkan keamanan data dan langkah-langkah anti-spam. Informasi lebih lanjut mengenai fitur keamanan dan privasi dapat ditemukan di [Dokumentasi Keamanan Lengkap](https://fastapi.tiangolo.com/tutorial/security/oauth2-scopes/#security-and-authentication) dan [Telethon Security](https://docs.telethon.dev/en/stable/concepts/security.html).
 
 ## Monitoring
 
-Pantau status scheduler, metrik dashboard, dan log pengiriman pesan. Detail mengenai monitoring dan troubleshooting dapat ditemukan di sini.
+Pantau status scheduler, metrik dashboard, dan log pengiriman pesan. Detail mengenai monitoring dan troubleshooting dapat ditemukan di [Dokumentasi Monitoring Lengkap](https://fastapi.tiangolo.com/tutorial/background-tasks/) dan [React Monitoring Best Practices](https://react.dev/learn/thinking-in-react).
 
 ## Skema Database
 
-Proyek ini menggunakan SQLite sebagai database default. Detail mengenai skema database dapat ditemukan di sini.
+Proyek ini menggunakan SQLite sebagai database default. Detail mengenai skema database dapat ditemukan di [Dokumentasi Skema Database Lengkap](https://fastapi.tiangolo.com/tutorial/sql-databases/) dan [SQLite Official Documentation](https://www.sqlite.org/docs.html).
 
 ## Troubleshooting
 
-Jika Anda mengalami masalah atau membutuhkan bantuan, silakan lihat di sini atau buat issue baru di repositori GitHub.
+Jika Anda mengalami masalah atau membutuhkan bantuan, silakan lihat [Panduan Troubleshooting FastAPI](https://fastapi.tiangolo.com/tutorial/debugging/) dan [Panduan Troubleshooting React](https://react.dev/learn/thinking-in-react#step-5-add-inverse-data-flow) atau buat issue baru di repositori GitHub.
 
 
 
