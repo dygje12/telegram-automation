@@ -4,10 +4,10 @@ Selamat datang di dokumentasi Telegram Automation! Aplikasi fullstack untuk otom
 
 ## 📚 Dokumentasi
 
-- **[Installation](installation.md)** - Panduan instalasi dan setup lengkap
-- **[Usage](usage.md)** - Panduan penggunaan aplikasi
-- **[Backend API Docs](backend_api_docs.md)** - Dokumentasi API backend yang detail
-- **[Backend Code Docs (Sphinx)](backend_sphinx_html/)** - Dokumentasi kode backend dengan Sphinx
+*   [Installation](installation.md) - Panduan instalasi dan setup
+*   [Usage](usage.md) - Panduan penggunaan aplikasi
+*   [Backend API Docs](backend_api_docs.md) - Dokumentasi API backend yang detail
+*   [Backend Code Docs (Sphinx)](backend_sphinx_html/) - Dokumentasi kode backend dengan Sphinx
 
 ## 🚀 Fitur Utama
 
@@ -90,7 +90,7 @@ Kontribusi sangat dihargai! Untuk berkontribusi:
 
 1. Fork repository ini
 2. Buat branch fitur baru (`git checkout -b feature/nama-fitur`)
-3. Lakukan perubahan dan commit (`git commit -m 'Tambahkan fitur baru'`)
+3. Lakukan perubahan dan commit (`git commit -m "Tambahkan fitur baru"`)
 4. Push ke branch (`git push origin feature/nama-fitur`)
 5. Buat Pull Request dengan deskripsi yang jelas
 
