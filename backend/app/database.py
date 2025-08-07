@@ -1,9 +1,10 @@
-from sqlalchemy import create_engine, MetaData
+import os
+
+from databases import Database
+from dotenv import load_dotenv
+from sqlalchemy import MetaData, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from databases import Database
-import os
-from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -18,6 +19,7 @@ Base = declarative_base()
 database = Database(DATABASE_URL)
 metadata = MetaData()
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -25,9 +27,10 @@ def get_db():
     finally:
         db.close()
 
+
 async def connect_db():
     await database.connect()
 
+
 async def disconnect_db():
     await database.disconnect()
-

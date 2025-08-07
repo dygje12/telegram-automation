@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ../..
+      dockerfile: ./infra/docker/backend.Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend_data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:///./data/telegram_automation.db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ../..
+      dockerfile: ./infra/docker/frontend.Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+

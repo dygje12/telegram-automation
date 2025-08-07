@@ -1,0 +1,17 @@
+# Include base requirements
+-r base.txt
+
+# Production server
+gunicorn==21.2.0
+
+# Monitoring & Logging
+sentry-sdk[fastapi]==1.38.0
+
+# Performance
+redis==5.0.1
+celery==5.3.4
+
+# Production database support (optional)
+psycopg2-binary==2.9.9  # PostgreSQL
+pymysql==1.1.0  # MySQL
+

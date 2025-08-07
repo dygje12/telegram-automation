@@ -1,119 +1,155 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from contextlib import asynccontextmanager
-import logging
+"""
+Main FastAPI application with production-ready configuration
+"""
+
+import logging.config
 import os
+from contextlib import asynccontextmanager
+
 from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 
 # Load environment variables
 load_dotenv()
 
+# Import API routers
+from app.api.v1 import auth, blacklist, groups, messages, scheduler, settings
+
+# Import core modules
+from app.core.config import get_logging_config, get_settings
+from app.core.exceptions import setup_exception_handlers
+from app.core.logging import setup_logging
+
 # Import database
-from app.database import connect_db, disconnect_db, engine, Base
+from app.database import Base, connect_db, disconnect_db, engine
+from app.middleware.cors import configure_cors_middleware
+from app.middleware.error_handler import setup_exception_handlers
+from app.middleware.rate_limiting import rate_limit_middleware
 
 # Import services
 from app.services.scheduler_service import scheduler_service
 
-# Import routers
-from app.routers import auth, messages, groups, blacklist, scheduler, settings
+# Get settings
+settings = get_settings()
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+# Setup logging
+setup_logging(
+    log_level=settings.log_level, log_file=settings.log_file, json_format=settings.is_production
 )
+
 logger = logging.getLogger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan events"""
     # Startup
     logger.info("Starting up Telegram Automation API...")
-    
-    # Create database tables
-    Base.metadata.create_all(bind=engine)
-    logger.info("Database tables created/verified")
-    
-    # Connect to database
-    await connect_db()
-    logger.info("Database connected")
-    
-    # Start scheduler
-    scheduler_service.start_scheduler()
-    logger.info("Scheduler started")
-    
-    # Generate encryption key if needed
-    from app.utils.encryption import encryption_manager
-    logger.info("Encryption manager initialized")
-    
+
+    try:
+        # Create database tables
+        Base.metadata.create_all(bind=engine)
+        logger.info("Database tables created/verified")
+
+        # Connect to database
+        await connect_db()
+        logger.info("Database connected")
+
+        # Start scheduler
+        scheduler_service.start_scheduler()
+        logger.info("Scheduler started")
+
+        # Generate encryption key if needed
+        from app.utils.encryption import encryption_manager
+
+        logger.info("Encryption manager initialized")
+
+        logger.info("Application startup completed successfully")
+
+    except Exception as e:
+        logger.error(f"Application startup failed: {str(e)}")
+        raise
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down Telegram Automation API...")
-    
-    # Stop scheduler
-    scheduler_service.stop_scheduler()
-    logger.info("Scheduler stopped")
-    
-    # Disconnect from database
-    await disconnect_db()
-    logger.info("Database disconnected")
+
+    try:
+        # Stop scheduler
+        scheduler_service.stop_scheduler()
+        logger.info("Scheduler stopped")
+
+        # Disconnect from database
+        await disconnect_db()
+        logger.info("Database disconnected")
+
+        logger.info("Application shutdown completed successfully")
+
+    except Exception as e:
+        logger.error(f"Application shutdown failed: {str(e)}")
+
 
 # Create FastAPI app
 app = FastAPI(
-    title="Telegram Automation API",
-    description="API for automating Telegram message sending using user accounts",
-    version="1.0.0",
-    lifespan=lifespan
+    title=settings.app_name,
+    description="Production-ready API for automating Telegram message sending using user accounts",
+    version=settings.app_version,
+    lifespan=lifespan,
+    docs_url="/docs" if settings.is_development else None,
+    redoc_url="/redoc" if settings.is_development else None,
+    openapi_url="/openapi.json" if settings.is_development else None,
 )
 
 # Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # In production, specify exact origins
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+cors_configured = configure_cors_middleware(app)
+if cors_configured:
+    logger.info(f"CORS configured with origins: {settings.allowed_origins_list}")
+else:
+    logger.warning("CORS not configured - no allowed origins specified")
 
-# Include routers
-app.include_router(auth.router)
-app.include_router(messages.router)
-app.include_router(groups.router)
-app.include_router(blacklist.router)
-app.include_router(scheduler.router)
-app.include_router(settings.router)
+# Add rate limiting middleware
+app.middleware("http")(rate_limit_middleware)
+logger.info("Rate limiting middleware configured")
 
-# Global exception handler
-@app.exception_handler(Exception)
-async def global_exception_handler(request, exc):
-    logger.error(f"Global exception: {str(exc)}")
-    return JSONResponse(
-        status_code=500,
-        content={
-            "message": "Internal server error",
-            "success": False,
-            "error_code": "INTERNAL_ERROR"
-        }
-    )
+# Setup exception handlers
+setup_exception_handlers(app)
+logger.info("Exception handlers configured")
+
+# Include API routers with v1 prefix
+app.include_router(auth.router, prefix="/api/v1", tags=["Authentication"])
+app.include_router(messages.router, prefix="/api/v1", tags=["Messages"])
+app.include_router(groups.router, prefix="/api/v1", tags=["Groups"])
+app.include_router(blacklist.router, prefix="/api/v1", tags=["Blacklist"])
+app.include_router(scheduler.router, prefix="/api/v1", tags=["Scheduler"])
+app.include_router(settings.router, prefix="/api/v1", tags=["Settings"])
+
+logger.info("API routers configured")
+
 
 # Health check endpoint
-@app.get("/health")
+@app.get("/health", tags=["Health"])
 async def health_check():
-    """Health check endpoint"""
+    """
+    Health check endpoint for monitoring
+    """
     try:
         # Check database connection
         from app.database import database
-        
+
         # Check scheduler status
-        scheduler_running = scheduler_service.scheduler.running if scheduler_service.scheduler else False
-        
+        scheduler_running = (
+            scheduler_service.scheduler.running if scheduler_service.scheduler else False
+        )
+
         return {
             "status": "healthy",
+            "environment": settings.environment,
+            "version": settings.app_version,
             "database": "connected",
             "scheduler": "running" if scheduler_running else "stopped",
-            "version": "1.0.0"
+            "timestamp": "2024-01-01T00:00:00Z",  # Will be replaced with actual timestamp
         }
     except Exception as e:
         logger.error(f"Health check failed: {str(e)}")
@@ -121,39 +157,56 @@ async def health_check():
             status_code=503,
             content={
                 "status": "unhealthy",
-                "error": str(e)
-            }
+                "error": str(e) if settings.is_development else "Service unavailable",
+            },
         )
 
+
 # Root endpoint
-@app.get("/")
+@app.get("/", tags=["Root"])
 async def root():
-    """Root endpoint with API information"""
+    """
+    Root endpoint with API information
+    """
     return {
-        "message": "Telegram Automation API",
-        "version": "1.0.0",
-        "docs": "/docs",
+        "message": settings.app_name,
+        "version": settings.app_version,
+        "environment": settings.environment,
+        "docs": "/docs" if settings.is_development else "Documentation not available in production",
         "health": "/health",
-        "endpoints": {
-            "auth": "/auth",
-            "messages": "/messages",
-            "groups": "/groups",
-            "blacklist": "/blacklist",
-            "scheduler": "/scheduler",
-            "settings": "/settings"
-        }
+        "api": {
+            "base_url": "/api/v1",
+            "endpoints": {
+                "auth": "/api/v1/auth",
+                "messages": "/api/v1/messages",
+                "groups": "/api/v1/groups",
+                "blacklist": "/api/v1/blacklist",
+                "scheduler": "/api/v1/scheduler",
+                "settings": "/api/v1/settings",
+            },
+        },
     }
 
+
 # API info endpoint
-@app.get("/info")
+@app.get("/api/v1/info", tags=["Info"])
 async def api_info():
-    """Get API information and statistics"""
+    """
+    Get API information and statistics
+    """
     try:
         # Get basic stats
         stats = {
-            "api_version": "1.0.0",
-            "scheduler_running": scheduler_service.scheduler.running if scheduler_service.scheduler else False,
-            "active_jobs": len(scheduler_service.running_jobs),
+            "api_version": settings.app_version,
+            "environment": settings.environment,
+            "scheduler_running": (
+                scheduler_service.scheduler.running if scheduler_service.scheduler else False
+            ),
+            "active_jobs": (
+                len(scheduler_service.running_jobs)
+                if hasattr(scheduler_service, "running_jobs")
+                else 0
+            ),
             "features": [
                 "Telegram user account authentication",
                 "Message template management",
@@ -161,31 +214,37 @@ async def api_info():
                 "Smart blacklist management",
                 "Automated message scheduling",
                 "Real-time monitoring and logging",
-                "Configurable sending intervals"
-            ]
+                "Configurable sending intervals",
+                "Rate limiting and security",
+                "Production-ready architecture",
+            ],
+            "security": {
+                "rate_limiting": True,
+                "cors_configured": cors_configured,
+                "authentication": "JWT Bearer Token",
+                "input_validation": True,
+                "error_handling": True,
+            },
         }
-        
+
         return stats
-        
+
     except Exception as e:
         logger.error(f"Failed to get API info: {str(e)}")
         return JSONResponse(
             status_code=500,
-            content={"error": str(e)}
+            content={"error": str(e) if settings.is_development else "Internal server error"},
         )
+
 
 if __name__ == "__main__":
     import uvicorn
-    
-    host = os.getenv("HOST", "0.0.0.0")
-    port = int(os.getenv("PORT", "8000"))
-    debug = os.getenv("DEBUG", "False").lower() == "true"
-    
+
     uvicorn.run(
         "app.main:app",
-        host=host,
-        port=port,
-        reload=debug,
-        log_level="info"
+        host=settings.host,
+        port=settings.port,
+        reload=settings.is_development,
+        log_level=settings.log_level.lower(),
+        access_log=True,
     )
-

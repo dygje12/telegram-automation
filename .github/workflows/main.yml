@@ -1,0 +1,73 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Backend Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          cd telegram-automation/backend
+          poetry install --no-root
+
+      - name: Run Backend Linting and Type Checking
+        run: |
+          cd telegram-automation/backend
+          poetry run black --check .
+          poetry run isort --check-only .
+          poetry run mypy app/
+
+      - name: Run Backend Tests and Coverage
+        run: |
+          cd telegram-automation/backend
+          poetry run pytest --cov=app --cov-fail-under=80
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd telegram-automation/frontend
+          npm install --legacy-peer-deps
+
+      - name: Run Frontend Linting
+        run: |
+          cd telegram-automation/frontend
+          npm run lint
+
+      - name: Run Frontend Build and Type Checking
+        run: |
+          cd telegram-automation/frontend
+          npm run build
+
+      - name: Build Docker Images
+        run: |
+          docker-compose -f telegram-automation/infra/docker/docker-compose.yml build
+
+      - name: Check Docker Compose Up (DevEx check)
+        run: |
+          docker-compose -f telegram-automation/infra/docker/docker-compose.yml up -d
+          sleep 10 # Give services time to start
+          docker-compose -f telegram-automation/infra/docker/docker-compose.yml ps
+          docker-compose -f telegram-automation/infra/docker/docker-compose.yml down
+
+
