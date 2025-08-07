@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Backend API Docs - Telegram Automation Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Telegram Automation Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../installation/" class="nav-link">Installation</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../usage/" class="nav-link">Usage</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">API Documentation</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Backend API Docs</a>
+</li>
+                                    
+<li>
+    <a href="../backend_sphinx_html/index.html" class="dropdown-item">Backend Code Docs (Sphinx)</a>
+</li>
+                                    
+<li>
+    <a href="../frontend_jsdoc/index.html" class="dropdown-item">Frontend Code Docs (JSDoc)</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../docstring_best_practices/" class="nav-link">Docstring Best Practices</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../usage/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../docstring_best_practices/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#backend-api-documentation" class="nav-link">Backend API Documentation</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#akses-dokumentasi-api-interaktif" class="nav-link">Akses Dokumentasi API Interaktif</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#dokumentasi-kode-backend-sphinx" class="nav-link">Dokumentasi Kode Backend (Sphinx)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#endpoint-utama" class="nav-link">Endpoint Utama</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="backend-api-documentation">Backend API Documentation</h1>
+<p>Dokumentasi ini menjelaskan API endpoints yang tersedia di backend Telegram Automation, serta cara mengakses dokumentasi API interaktif dan dokumentasi kode internal.</p>
+<h2 id="akses-dokumentasi-api-interaktif">Akses Dokumentasi API Interaktif</h2>
+<p>Backend Telegram Automation dibangun menggunakan FastAPI, yang secara otomatis menghasilkan dokumentasi API interaktif. Anda dapat mengakses dokumentasi ini melalui:</p>
+<h3 id="swagger-ui">Swagger UI</h3>
+<p>Akses: <code>http://127.0.0.1:8000/docs</code></p>
+<p>Swagger UI menyediakan antarmuka interaktif yang memungkinkan Anda untuk:
+- Melihat semua endpoint yang tersedia.
+- Memahami parameter yang diperlukan untuk setiap endpoint.
+- Menguji endpoint secara langsung dari browser Anda.
+- Melihat contoh respons (response) dari setiap endpoint.</p>
+<h3 id="redoc">Redoc</h3>
+<p>Akses: <code>http://127.0.0.1:8000/redoc</code></p>
+<p>Redoc menyediakan tampilan dokumentasi API yang lebih bersih, terstruktur, dan mudah dibaca, dengan fitur-fitur seperti:
+- Tampilan yang ringkas dan navigasi yang intuitif.
+- Dokumentasi yang detail untuk setiap endpoint.</p>
+<h2 id="dokumentasi-kode-backend-sphinx">Dokumentasi Kode Backend (Sphinx)</h2>
+<p>Untuk dokumentasi kode backend yang lebih mendalam, termasuk docstrings, struktur internal modul, layanan, dan utilitas, Anda dapat merujuk pada dokumentasi Sphinx yang dihasilkan dari kode sumber. Dokumentasi ini sangat berguna bagi pengembang yang ingin memahami detail implementasi internal.</p>
+<p>Lokasi: <code>backend/docs/build/html/index.html</code> (setelah Anda membangun dokumentasi Sphinx).</p>
+<p>Dokumentasi Sphinx ini mencakup:
+- Dokumentasi untuk semua modul Python.
+- Docstrings dari fungsi dan kelas.
+- Struktur arsitektur backend.
+- Detail implementasi services dan utilities.</p>
+<h2 id="endpoint-utama">Endpoint Utama</h2>
+<p>Berikut adalah daftar ringkasan endpoint API utama yang disediakan oleh backend. Untuk detail lengkap mengenai parameter, tipe data, dan contoh respons, silakan gunakan Swagger UI atau Redoc.</p>
+<h3 id="authentication">Authentication</h3>
+<ul>
+<li><code>POST /auth/login</code>: Melakukan login pengguna dengan kredensial.</li>
+<li><code>POST /auth/verify-code</code>: Memverifikasi kode OTP yang diterima dari Telegram.</li>
+<li><code>POST /auth/verify-2fa</code>: Memverifikasi Two-Factor Authentication (2FA) jika diaktifkan.</li>
+<li><code>GET /auth/status</code>: Mendapatkan status autentikasi pengguna saat ini.</li>
+</ul>
+<h3 id="messages">Messages</h3>
+<ul>
+<li><code>GET /messages</code>: Mendapatkan daftar semua template pesan yang tersedia.</li>
+<li><code>POST /messages</code>: Membuat template pesan baru.</li>
+<li><code>PUT /messages/{id}</code>: Memperbarui template pesan berdasarkan ID.</li>
+<li><code>DELETE /messages/{id}</code>: Menghapus template pesan berdasarkan ID.</li>
+</ul>
+<h3 id="groups">Groups</h3>
+<ul>
+<li><code>GET /groups</code>: Mendapatkan daftar semua grup target.</li>
+<li><code>POST /groups</code>: Menambahkan grup baru.</li>
+<li><code>POST /groups/{id}/validate</code>: Memvalidasi akses ke grup tertentu berdasarkan ID.</li>
+</ul>
+<h3 id="scheduler">Scheduler</h3>
+<ul>
+<li><code>POST /scheduler/start</code>: Memulai proses pengiriman pesan otomatis.</li>
+<li><code>POST /scheduler/stop</code>: Menghentikan proses pengiriman pesan otomatis.</li>
+<li><code>GET /scheduler/status</code>: Mendapatkan status scheduler saat ini (running/stopped).</li>
+<li><code>GET /scheduler/logs</code>: Mendapatkan log riwayat pengiriman pesan.</li>
+</ul>
+<h3 id="settings">Settings</h3>
+<ul>
+<li><code>GET /settings</code>: Mendapatkan pengaturan aplikasi saat ini.</li>
+<li><code>PUT /settings</code>: Memperbarui pengaturan aplikasi.</li>
+</ul>
+<h3 id="blacklist">Blacklist</h3>
+<ul>
+<li><code>GET /blacklist</code>: Mendapatkan daftar grup yang masuk daftar hitam (blacklist).</li>
+<li><code>POST /blacklist</code>: Menambahkan grup ke daftar hitam.</li>
+<li><code>DELETE /blacklist/{id}</code>: Menghapus grup dari daftar hitam berdasarkan ID.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

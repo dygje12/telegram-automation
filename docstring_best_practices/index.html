@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Docstring Best Practices - Telegram Automation Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Telegram Automation Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../installation/" class="nav-link">Installation</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../usage/" class="nav-link">Usage</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">API Documentation</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../backend_api_docs/" class="dropdown-item">Backend API Docs</a>
+</li>
+                                    
+<li>
+    <a href="../backend_sphinx_html/index.html" class="dropdown-item">Backend Code Docs (Sphinx)</a>
+</li>
+                                    
+<li>
+    <a href="../frontend_jsdoc/index.html" class="dropdown-item">Frontend Code Docs (JSDoc)</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Docstring Best Practices</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../backend_api_docs/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#panduan-praktik-terbaik-docstring-dan-komentar" class="nav-link">Panduan Praktik Terbaik Docstring dan Komentar</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#untuk-kode-python-menggunakan-sphinx-style-docstrings" class="nav-link">Untuk Kode Python (menggunakan Sphinx-style Docstrings)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#untuk-kode-javascript-menggunakan-jsdoc" class="nav-link">Untuk Kode JavaScript (menggunakan JSDoc)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="panduan-praktik-terbaik-docstring-dan-komentar">Panduan Praktik Terbaik Docstring dan Komentar</h1>
+<p>Dokumentasi yang baik adalah kunci untuk pemeliharaan dan kolaborasi proyek yang efektif. Untuk memastikan konsistensi dan kualitas, ikuti panduan berikut saat menulis docstring untuk kode Python dan komentar untuk kode JavaScript Anda.</p>
+<h2 id="untuk-kode-python-menggunakan-sphinx-style-docstrings">Untuk Kode Python (menggunakan Sphinx-style Docstrings)</h2>
+<p>Kami merekomendasikan penggunaan format docstring bergaya Sphinx untuk kode Python Anda. Ini memungkinkan Sphinx untuk secara otomatis mengekstrak informasi dan membangun dokumentasi yang komprehensif.</p>
+<h3 id="contoh-docstring-fungsi">Contoh Docstring Fungsi:</h3>
+<pre><code class="language-python">def my_function(param1, param2):
+    &quot;&quot;&quot;
+    Deskripsi singkat tentang fungsi ini.
+
+    Deskripsi yang lebih panjang jika diperlukan, menjelaskan detail implementasi atau tujuan yang lebih luas.
+
+    :param param1: Deskripsi `param1` dan tipenya.
+    :type param1: str
+    :param param2: Deskripsi `param2` dan tipenya.
+    :type param2: int
+    :returns: Deskripsi nilai yang dikembalikan dan tipenya.
+    :rtype: bool
+    :raises ValueError: Jika `param1` tidak valid.
+    &quot;&quot;&quot;
+    # Implementasi fungsi
+    pass
+</code></pre>
+<h3 id="contoh-docstring-kelas">Contoh Docstring Kelas:</h3>
+<pre><code class="language-python">class MyClass:
+    &quot;&quot;&quot;
+    Deskripsi singkat tentang kelas ini.
+
+    Deskripsi yang lebih panjang jika diperlukan.
+
+    :ivar attribute1: Deskripsi `attribute1`.
+    :vartype attribute1: str
+    &quot;&quot;&quot;
+    def __init__(self, value):
+        &quot;&quot;&quot;
+        Inisialisasi objek MyClass.
+
+        :param value: Nilai awal.
+        :type value: any
+        &quot;&quot;&quot;
+        self.attribute1 = value
+
+    def my_method(self):
+        &quot;&quot;&quot;
+        Deskripsi singkat tentang metode ini.
+
+        :returns: Hasil metode.
+        :rtype: float
+        &quot;&quot;&quot;
+        pass
+</code></pre>
+<h3 id="poin-penting">Poin Penting:</h3>
+<ul>
+<li><strong>Ringkas dan Jelas:</strong> Baris pertama docstring harus berupa ringkasan singkat (satu baris) tentang fungsi atau kelas.</li>
+<li><strong>Detail:</strong> Berikan deskripsi yang lebih rinci setelah baris ringkasan, jika diperlukan.</li>
+<li><strong>Parameter (<code>:param</code>):</strong> Jelaskan setiap parameter, termasuk tujuannya dan tipe datanya.</li>
+<li><strong>Tipe Parameter (<code>:type</code>):</strong> Secara eksplisit nyatakan tipe data parameter.</li>
+<li><strong>Nilai Kembali (<code>:returns</code> dan <code>:rtype</code>):</strong> Jelaskan apa yang dikembalikan oleh fungsi atau metode dan tipe datanya.</li>
+<li><strong>Pengecualian (<code>:raises</code>):</strong> Sebutkan pengecualian yang mungkin dimunculkan oleh fungsi atau metode.</li>
+<li><strong>Contoh:</strong> Jika memungkinkan, sertakan contoh penggunaan dalam docstring.</li>
+</ul>
+<h2 id="untuk-kode-javascript-menggunakan-jsdoc">Untuk Kode JavaScript (menggunakan JSDoc)</h2>
+<p>Untuk kode JavaScript, gunakan sintaks JSDoc dalam komentar Anda. Ini memungkinkan JSDoc untuk menghasilkan dokumentasi API yang interaktif.</p>
+<h3 id="contoh-komentar-fungsi">Contoh Komentar Fungsi:</h3>
+<pre><code class="language-javascript">/**
+ * Deskripsi singkat tentang fungsi ini.
+ *
+ * Deskripsi yang lebih panjang jika diperlukan.
+ * @param {string} param1 - Deskripsi `param1`.
+ * @param {number} param2 - Deskripsi `param2`.
+ * @returns {boolean} Deskripsi nilai yang dikembalikan.
+ * @throws {Error} Jika `param1` tidak valid.
+ */
+function myFunction(param1, param2) {
+  // Implementasi fungsi
+}
+</code></pre>
+<h3 id="contoh-komentar-kelas">Contoh Komentar Kelas:</h3>
+<pre><code class="language-javascript">/**
+ * Deskripsi singkat tentang kelas ini.
+ *
+ * Deskripsi yang lebih panjang jika diperlukan.
+ * @class
+ */
+class MyClass {
+  /**
+   * Inisialisasi objek MyClass.
+   * @param {*} value - Nilai awal.
+   */
+  constructor(value) {
+    /**
+     * Deskripsi `attribute1`.
+     * @type {string}
+     */
+    this.attribute1 = value;
+  }
+
+  /**
+   * Deskripsi singkat tentang metode ini.
+   * @returns {number} Hasil metode.
+   */
+  myMethod() {
+    // Implementasi metode
+  }
+}
+</code></pre>
+<h3 id="poin-penting_1">Poin Penting:</h3>
+<ul>
+<li><strong>Ringkas dan Jelas:</strong> Baris pertama komentar harus berupa ringkasan singkat.</li>
+<li><strong><code>@param</code>:</strong> Jelaskan setiap parameter, termasuk tipe data dan tujuannya.</li>
+<li><strong><code>@returns</code>:</strong> Jelaskan nilai yang dikembalikan dan tipe datanya.</li>
+<li><strong><code>@throws</code>:</strong> Sebutkan pengecualian yang mungkin dimunculkan.</li>
+<li><strong><code>@typedef</code>:</strong> Gunakan untuk mendokumentasikan tipe data kustom atau objek kompleks.</li>
+<li><strong><code>@memberof</code> / <code>@static</code> / <code>@instance</code>:</strong> Gunakan tag ini untuk mengorganisir dokumentasi Anda dengan lebih baik.</li>
+</ul>
+<p>Dengan mengikuti panduan ini, kita dapat memastikan bahwa dokumentasi yang dihasilkan secara otomatis akurat, komprehensif, dan mudah digunakan oleh semua pengembang yang berkontribusi pada proyek ini.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
