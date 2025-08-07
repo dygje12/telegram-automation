@@ -120,8 +120,3 @@ Jika Anda mengalami masalah atau membutuhkan bantuan:
 
 **Dibuat dengan ❤️ menggunakan FastAPI, Telethon, React, dan Tailwind CSS**
 
-
-
-
-- **[Backend Code Docs (Sphinx)](backend_sphinx_html/)** - Dokumentasi kode backend dengan Sphinx
-
