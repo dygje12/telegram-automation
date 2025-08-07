@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import Settings, User
-from app.routers.auth import get_current_user
-from app.schemas import MessageResponseGeneric, SettingsResponse, SettingsUpdate
+from app.api.v1.auth import get_current_user
+from app.models import MessageResponseGeneric, SettingsResponse, SettingsUpdate
 
 router = APIRouter(prefix="/settings", tags=["settings"])
 

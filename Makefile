@@ -1,50 +1,70 @@
-.PHONY: dev build test lint deploy
-
-# Variables
-BACKEND_DIR = backend
-FRONTEND_DIR = frontend
-DOCKER_DIR = infra/docker
+.PHONY: help dev test build deploy clean install lint format
 
 # Default target
-all: dev
+help:
+	@echo "Available commands:"
+	@echo "  make dev      - Start development environment"
+	@echo "  make test     - Run all tests"
+	@echo "  make build    - Build all components"
+	@echo "  make deploy   - Deploy to production"
+	@echo "  make clean    - Clean build artifacts"
+	@echo "  make install  - Install dependencies"
+	@echo "  make lint     - Run linting"
+	@echo "  make format   - Format code"
 
-# Run development environment using Docker Compose
+# Development environment
 dev:
 	@echo "Starting development environment..."
-	@docker-compose -f $(DOCKER_DIR)/docker-compose.yml up --build
+	docker-compose -f infra/docker/docker-compose.yml up --build
 
-# Build frontend and backend Docker images
-build:
-	@echo "Building Docker images..."
-	@docker-compose -f $(DOCKER_DIR)/docker-compose.yml build
+# Install dependencies
+install:
+	@echo "Installing backend dependencies..."
+	cd backend && pip install -r requirements/dev.txt
+	@echo "Installing frontend dependencies..."
+	cd frontend && npm install
 
-# Run tests for backend and frontend
+# Run tests
 test:
 	@echo "Running backend tests..."
-	@cd $(BACKEND_DIR) && pytest --cov=app
+	cd backend && python -m pytest app/tests/ --cov=app --cov-report=term-missing --cov-fail-under=80
 	@echo "Running frontend tests..."
-	@cd $(FRONTEND_DIR) && npm test
+	cd frontend && npm test
 
-# Run linting for backend and frontend
+# Linting
 lint:
 	@echo "Running backend linting..."
-	@cd $(BACKEND_DIR) && poetry run black . && poetry run isort . && poetry run mypy app/
+	cd backend && black --check app/
+	cd backend && isort --check-only app/
+	cd backend && mypy app/
 	@echo "Running frontend linting..."
-	@cd $(FRONTEND_DIR) && npm run lint
+	cd frontend && npm run lint
 
-# Deploy (placeholder - actual deployment logic would go here)
+# Format code
+format:
+	@echo "Formatting backend code..."
+	cd backend && black app/
+	cd backend && isort app/
+	@echo "Formatting frontend code..."
+	cd frontend && npm run format
+
+# Build
+build:
+	@echo "Building backend..."
+	docker build -f infra/docker/Dockerfile.backend -t telegram-automation-backend .
+	@echo "Building frontend..."
+	docker build -f infra/docker/Dockerfile.frontend -t telegram-automation-frontend .
+
+# Deploy
 deploy:
-	@echo "Deploying application... (Not implemented yet)"
+	@echo "Deploying to production..."
+	docker-compose -f infra/docker/docker-compose.yml -f infra/docker/docker-compose.prod.yml up -d
 
+# Clean
 clean:
-	@echo "Cleaning up..."
-	@docker-compose -f $(DOCKER_DIR)/docker-compose.yml down --volumes --remove-orphans
-	@rm -rf $(BACKEND_DIR)/.pytest_cache
-	@rm -rf $(BACKEND_DIR)/.mypy_cache
-	@rm -rf $(BACKEND_DIR)/__pycache__
-	@rm -rf $(FRONTEND_DIR)/node_modules
-	@rm -rf $(FRONTEND_DIR)/dist
-	@rm -rf $(DOCKER_DIR)/backend_data
-
-.PHONY: all dev build test lint deploy clean
+	@echo "Cleaning build artifacts..."
+	docker system prune -f
+	cd frontend && rm -rf dist/ node_modules/.cache/
+	cd backend && find . -type d -name "__pycache__" -exec rm -rf {} +
+	cd backend && find . -name "*.pyc" -delete
 

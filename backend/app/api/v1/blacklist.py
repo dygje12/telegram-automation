@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import User
-from app.routers.auth import get_current_user
-from app.schemas import BlacklistResponse, MessageResponseGeneric
+from app.api.v1.auth import get_current_user
+from app.models import BlacklistResponse, MessageResponseGeneric
 from app.services.blacklist_service import blacklist_service
 
 router = APIRouter(prefix="/blacklist", tags=["blacklist"])

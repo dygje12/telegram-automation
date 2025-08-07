@@ -4,26 +4,62 @@ services:
   backend:
     build:
       context: ../..
-      dockerfile: ./infra/docker/backend.Dockerfile
+      dockerfile: ./infra/docker/Dockerfile.backend
     ports:
       - "8000:8000"
     volumes:
-      - ./backend_data:/app/data
+      - backend_data:/app/data
+      - ./backend/.env:/app/.env:ro
     environment:
       - DATABASE_URL=sqlite:///./data/telegram_automation.db
+      - ENVIRONMENT=development
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
       - app-network
+    restart: unless-stopped
 
   frontend:
     build:
       context: ../..
-      dockerfile: ./infra/docker/frontend.Dockerfile
+      dockerfile: ./infra/docker/Dockerfile.frontend
     ports:
-      - "80:80"
+      - "3000:8080"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
       - app-network
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  backend_data:
+    driver: local
 
 networks:
   app-network:

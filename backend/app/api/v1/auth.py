@@ -1,12 +1,14 @@
-from typing import Optional
+"""
+Authentication API endpoints
+"""
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import User
-from app.schemas import (
+from app.models import (
+    User,
     AuthResponse,
     ErrorResponse,
     LoginRequest,

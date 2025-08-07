@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import Log, User
-from app.routers.auth import get_current_user
-from app.schemas import LogResponse, MessageResponseGeneric, SchedulerStatus
+from app.api.v1.auth import get_current_user
+from app.models import LogResponse, MessageResponseGeneric, SchedulerStatus
 from app.services.blacklist_service import blacklist_service
 from app.services.group_service import group_service
 from app.services.message_service import message_service

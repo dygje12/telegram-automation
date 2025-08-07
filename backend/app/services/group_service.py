@@ -4,7 +4,7 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 
 from app.models import Group, User
-from app.schemas import GroupCreate
+from app.models import GroupCreate
 from app.services.telegram_service import telegram_service
 from app.utils.validators import parse_group_input, sanitize_input
 

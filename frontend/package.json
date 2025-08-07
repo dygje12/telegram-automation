@@ -8,6 +8,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext ts,tsx --parser @typescript-eslint/parser",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "preview": "vite preview"
   },
   "dependencies": {
