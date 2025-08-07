@@ -8,7 +8,7 @@ gunicorn==21.2.0
 sentry-sdk[fastapi]==1.38.0
 
 # Performance
-redis==5.0.1
+redis==6.4.0
 celery==5.3.4
 
 # Production database support (optional)
