@@ -3,15 +3,15 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.models import User
 from app.api.v1.auth import get_current_user
+from app.database import get_db
 from app.models import (
     ErrorResponse,
     MessageCreate,
     MessageResponse,
     MessageResponseGeneric,
     MessageUpdate,
+    User,
 )
 from app.services.message_service import message_service
 

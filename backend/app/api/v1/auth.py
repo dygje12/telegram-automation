@@ -8,11 +8,11 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import (
-    User,
     AuthResponse,
     ErrorResponse,
     LoginRequest,
     MessageResponseGeneric,
+    User,
     Verify2FARequest,
     VerifyCodeRequest,
 )

@@ -3,10 +3,9 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.models import Settings, User
 from app.api.v1.auth import get_current_user
-from app.models import MessageResponseGeneric, SettingsResponse, SettingsUpdate
+from app.database import get_db
+from app.models import MessageResponseGeneric, Settings, SettingsResponse, SettingsUpdate, User
 
 router = APIRouter(prefix="/settings", tags=["settings"])
 

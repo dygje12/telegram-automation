@@ -3,8 +3,7 @@ from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
-from app.models import Group, User
-from app.models import GroupCreate
+from app.models import Group, GroupCreate, User
 from app.services.telegram_service import telegram_service
 from app.utils.validators import parse_group_input, sanitize_input
 
@@ -53,9 +52,11 @@ class GroupService:
 
             # Resolve group information from Telegram
             try:
-                telegram_group_id, group_name, resolved_username = (
-                    await telegram_service.resolve_group(client, group_data.group_input)
-                )
+                (
+                    telegram_group_id,
+                    group_name,
+                    resolved_username,
+                ) = await telegram_service.resolve_group(client, group_data.group_input)
             except Exception as e:
                 raise Exception(f"Failed to resolve group: {str(e)}")
 

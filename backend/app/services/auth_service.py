@@ -8,8 +8,7 @@ from passlib.context import CryptContext
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
-from app.models import Settings, User
-from app.models import LoginRequest, UserCreate, Verify2FARequest, VerifyCodeRequest
+from app.models import LoginRequest, Settings, User, UserCreate, Verify2FARequest, VerifyCodeRequest
 from app.services.telegram_service import telegram_service
 from app.utils.encryption import encryption_manager
 from app.utils.validators import normalize_phone_number, validate_api_credentials

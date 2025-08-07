@@ -3,10 +3,9 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.models import User
 from app.api.v1.auth import get_current_user
-from app.models import ErrorResponse, GroupCreate, GroupResponse, MessageResponseGeneric
+from app.database import get_db
+from app.models import ErrorResponse, GroupCreate, GroupResponse, MessageResponseGeneric, User
 from app.services.group_service import group_service
 
 router = APIRouter(prefix="/groups", tags=["groups"])
