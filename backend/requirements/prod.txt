@@ -13,5 +13,5 @@ celery==5.3.4
 
 # Production database support (optional)
 psycopg2-binary==2.9.9  # PostgreSQL
-pymysql==1.1.0  # MySQL
+pymysql==1.1.1  # MySQL
 
