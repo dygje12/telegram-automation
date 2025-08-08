@@ -30,11 +30,11 @@ jobs:
         cache: 'pnpm'
         check-latest: true
 
-    - name: Install pnpm
-      run: npm install -g pnpm
-
-    - name: Add pnpm to PATH
-      run: echo "$(npm root -g)/pnpm" >> $GITHUB_PATH
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+        run_install: false
 
 
 
@@ -95,11 +95,11 @@ jobs:
         cache: 'pnpm'
         check-latest: true
 
-    - name: Install pnpm
-      run: npm install -g pnpm
-
-    - name: Add pnpm to PATH
-      run: echo "$(npm root -g)/pnpm" >> $GITHUB_PATH
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+        run_install: false
 
 
 
