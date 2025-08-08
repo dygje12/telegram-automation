@@ -105,11 +105,12 @@ apiClient.interceptors.response.use(
           console.warn('Access denied:', data?.message || 'Insufficient permissions');
           break;
 
-        case 429:
+        case 429: {
           // Rate limit exceeded
           const retryAfter = error.response.headers['retry-after'];
           console.warn(`Rate limit exceeded. Retry after ${retryAfter} seconds`);
           break;
+        }
 
         case 500:
           // Server error

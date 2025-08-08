@@ -92,13 +92,6 @@ export const Dashboard = () => {
     return new Date(dateString).toLocaleString();
   };
 
-  const formatInterval = (seconds) => {
-    if (!seconds) return 'N/A';
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}h ${minutes}m`;
-  };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">

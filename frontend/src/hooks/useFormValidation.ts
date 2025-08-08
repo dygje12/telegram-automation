@@ -13,7 +13,7 @@ export const validationSchemas = {
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
     .regex(/\d/, 'Password must contain at least one number')
-    .regex(/[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]/, 'Password must contain at least one special character'),
+    .regex(/[!@#$%^&*()_+\-=[\]{}|;:,.<>?]/, 'Password must contain at least one special character'),
 
   email: z.string()
     .email('Invalid email format')
@@ -206,7 +206,7 @@ export const useAsyncValidation = (asyncValidator, delay = 500) => {
       try {
         const result = await asyncValidator(value);
         setValidationError(result.error || null);
-      } catch (error) {
+      } catch {
         setValidationError('Validation failed');
       } finally {
         setIsValidating(false);
