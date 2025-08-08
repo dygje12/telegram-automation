@@ -96,23 +96,17 @@ jobs:
     environment: staging
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
     - name: Deploy to staging
       run: |
         echo "Deploying to staging environment..."
         echo "Backend image: ${{ needs.build-and-push.outputs.backend-image }}"
         echo "Frontend image: ${{ needs.build-and-push.outputs.frontend-image }}"
-        # Add actual deployment commands here
-        # Example: kubectl apply -f k8s/staging/
-        # Example: docker-compose -f docker-compose.staging.yml up -d
+        # Add actual deployment commands here, e.g., kubectl apply -f k8s/staging/
 
     - name: Run smoke tests
       run: |
         echo "Running smoke tests on staging..."
-        # Add smoke test commands here
-        # Example: curl -f https://staging.example.com/health
+        # Add smoke test commands here, e.g., curl -f https://staging.example.com/health
 
   deploy-production:
     if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.environment == 'production'
@@ -121,9 +115,6 @@ jobs:
     environment: production
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
     - name: Create deployment
       uses: actions/github-script@v7
       with:
@@ -145,15 +136,12 @@ jobs:
         echo "Deploying to production environment..."
         echo "Backend image: ${{ needs.build-and-push.outputs.backend-image }}"
         echo "Frontend image: ${{ needs.build-and-push.outputs.frontend-image }}"
-        # Add actual deployment commands here
-        # Example: kubectl apply -f k8s/production/
-        # Example: docker-compose -f docker-compose.prod.yml up -d
+        # Add actual deployment commands here, e.g., kubectl apply -f k8s/production/
 
     - name: Run production health checks
       run: |
         echo "Running production health checks..."
-        # Add health check commands here
-        # Example: curl -f https://api.example.com/health
+        # Add health check commands here, e.g., curl -f https://api.example.com/health
 
     - name: Update deployment status
       if: always()
@@ -167,7 +155,7 @@ jobs:
             deployment_id: '${{ steps.create-deployment.outputs.deployment-id }}',
             state: state,
             description: state === 'success' ? 'Deployment successful' : 'Deployment failed',
-            environment_url: 'https://example.com'
+            // environment_url: 'https://example.com' // Remove or make dynamic
           });
 
   notify:
@@ -184,4 +172,5 @@ jobs:
           echo "❌ Production deployment failed!"
         fi
         # Add notification logic here (Slack, Discord, email, etc.)
+
 
