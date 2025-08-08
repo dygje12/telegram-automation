@@ -16,16 +16,16 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
     - name: Install Python dependencies
       run: |
-        pip install -r backend/requirements.txt
+        pip install -r backend/requirements/prod.txt
         pip install sphinx mkdocs
 
     - name: Build Sphinx documentation
@@ -36,33 +36,35 @@ jobs:
         cp -r build/html/* ../../docs/backend_sphinx_html/
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'pnpm'
+        cache-dependency-path: frontend/pnpm-lock.yaml
 
-    - name: Install Node.js dependencies
-      run: |
-        npm install -g pnpm
-        cd frontend
-        pnpm install
-        npm install -g jsdoc@4.0.3
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 10.4.1
+        run_install: false
 
-    - name: Build JSDoc documentation
+    - name: Install frontend dependencies
       run: |
         cd frontend
-        jsdoc -c jsdoc.json
-        mkdir -p ../../docs/frontend_jsdoc
-        cp -r docs/jsdoc/* ../../docs/frontend_jsdoc/
+        pnpm install --frozen-lockfile
+
+    - name: Build TypeDoc documentation
+      run: |
+        cd frontend
+        pnpm dlx typedoc --out ../../docs/frontend_typedoc src/main.tsx
 
     - name: Build MkDocs documentation
       run: |
         cd docs
         mkdocs build
 
-
-
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs/site
