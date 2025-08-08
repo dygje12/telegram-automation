@@ -36,6 +36,9 @@ jobs:
         version: 8
         run_install: true
 
+    - name: Add pnpm to PATH (explicitly)
+      run: echo "$(pnpm root -g)" >> $GITHUB_PATH
+
 
 
 
@@ -96,6 +99,9 @@ jobs:
       with:
         version: 8
         run_install: true
+
+    - name: Add pnpm to PATH (explicitly)
+      run: echo "$(pnpm root -g)" >> $GITHUB_PATH
 
 
 
